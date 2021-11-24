@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { UserContext, UserState } from "./common/contexts/user.context";
+import CallbackRedirectivePage from "./pages/CallbackRedirectivePage";
+import DashboardPage from "./pages/DashboardPage";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [user, setUser] = React.useState<UserState>({
+		user: null,
+		accessToken: null,
+		refreshToken: null,
+		appAccessToken: null,
+		appRefreshToken: null,
+	});
+
+	return (
+		<div className="h-screen w-screen">
+			<UserContext.Provider value={{ user, setUser }}>
+				<BrowserRouter>
+					<Routes>
+						<Route path="/" element={<LoginPage />} />
+						<Route path="/callback" element={<CallbackRedirectivePage />} />
+						<Route path="/dashboard" element={<DashboardPage />} />
+					</Routes>
+				</BrowserRouter>
+			</UserContext.Provider>
+		</div>
+	);
 }
 
 export default App;

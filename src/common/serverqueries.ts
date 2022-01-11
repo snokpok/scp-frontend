@@ -11,7 +11,7 @@ export interface AddUserArgs {
 	refresh_token: string;
 }
 
-export async function AddUser(user: AddUserArgs) {
+export async function addUser(user: AddUserArgs) {
 	return axios({
 		method: "POST",
 		url: `${serverURL}/user`,
@@ -26,5 +26,25 @@ export async function GetSCPFromServer(accessToken: string) {
 			Authorization: `Bearer ${accessToken}`,
 		},
 		url: `${serverURL}/scp`,
+	});
+}
+
+export async function GetMeFromServer(accessToken: string, email: string) {
+	return axios({
+		method: "GET",
+		headers: {
+			Authorization: `Bearer ${accessToken}`,
+		},
+		url: `${serverURL}/me`,
+	});
+}
+
+export async function RefreshAccessTokenFromServer(secretKey: string) {
+	return axios({
+		method: "POST",
+		headers: {
+			Authorization: `Basic ${secretKey}`,
+		},
+		url: `${serverURL}/refresh`,
 	});
 }

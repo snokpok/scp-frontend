@@ -1,10 +1,27 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie/es6";
 import { UserContext } from "../common/contexts/user.context";
 import SCPWidget from "../components/User/SCPWidget";
 import UserWidget from "../components/User/UserWidget";
 
+const cookies = new Cookies();
+
 function DashboardPage() {
 	const { user } = React.useContext(UserContext);
+	const navigate = useNavigate();
+
+	React.useEffect(() => {
+		const accessToken = cookies.get("accessToken");
+		alert(accessToken);
+		if (!accessToken) {
+			navigate("login", {
+				replace: true,
+			});
+		} else {
+			// try to fetch all info with this
+		}
+	}, [navigate]);
 
 	return (
 		<div className="flex flex-col bg-green-600 w-screen min-h-screen items-center justify-center space-y-2">
@@ -17,7 +34,7 @@ function DashboardPage() {
 				</h1>
 				<div>You can access your currently playing song by this URL:</div>
 				<input
-					value={`localhost:4000/api/scp`}
+					value={`localhost:4000/scp`}
 					readOnly
 					className="p-2 bg-gray-300 rounded-sm"
 				/>

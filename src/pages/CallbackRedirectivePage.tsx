@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../common/contexts/user.context";
 import { getMeFromSpotify, requestToken } from "../common/queryfunctions";
-import { AddUser } from "../common/serverqueries";
+import { addUser } from "../common/serverqueries";
 
 function CallbackRedirectivePage() {
 	const { setUser } = React.useContext(UserContext);
@@ -25,18 +25,19 @@ function CallbackRedirectivePage() {
 						const username = myData["display_name"];
 						const email = myData["email"];
 						const spotifyId = myData["id"];
-						AddUser({
+						addUser({
 							username,
 							email,
 							access_token: accessToken,
 							refresh_token: refreshToken,
 							spotify_id: spotifyId,
 						}).then(({ data }) => {
-							const appAccessToken = data["token"];
+							const appAccessToken = data["data"]["token"];
 							setUser((prev) => ({
 								...prev,
 								appAccessToken,
 							}));
+							document.cookie = `accessToken=${appAccessToken}; path=/`;
 						});
 						setUser((prev) => ({
 							...prev,

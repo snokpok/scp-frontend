@@ -5,7 +5,7 @@ import { getMeFromSpotify, requestToken } from "../common/queryfunctions";
 import { addUser } from "../common/serverqueries";
 
 function CallbackRedirectivePage() {
-	const { setUser } = React.useContext(UserContext);
+	const { user, setUser } = React.useContext(UserContext);
 	const navigate = useNavigate();
 	const [startRedirect, setStartRedirect] = React.useState(false);
 	let query = React.useMemo(
@@ -39,12 +39,6 @@ function CallbackRedirectivePage() {
 							}));
 							document.cookie = `accessToken=${appAccessToken}; path=/`;
 						});
-						setUser((prev) => ({
-							...prev,
-							user: myData,
-							accessToken,
-							refreshToken,
-						}));
 						setStartRedirect(true);
 					} else {
 						alert(
@@ -57,11 +51,11 @@ function CallbackRedirectivePage() {
 	}, [query, setUser]);
 
 	React.useEffect(() => {
-		if (startRedirect)
+		if (user.appAccessToken && startRedirect)
 			navigate("/dashboard", {
 				replace: true,
 			});
-	}, [startRedirect, navigate]);
+	}, [startRedirect, navigate, user.appAccessToken]);
 
 	React.useEffect(() => {
 		handleQueryParseAuth();

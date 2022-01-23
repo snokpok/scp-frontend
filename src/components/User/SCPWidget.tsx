@@ -5,6 +5,7 @@ import { GetSCPFromServer } from "../../common/serverqueries";
 function SCPWidget() {
 	const { user } = React.useContext(UserContext);
 	const [scp, setScp] = React.useState<Record<string, any>>({});
+	const [loading, setLoading] = React.useState(false);
 
 	const fetchSCP = React.useCallback(() => {
 		if (user && user.appAccessToken) {
@@ -12,24 +13,28 @@ function SCPWidget() {
 				setScp(data);
 			});
 		}
-	}, [user]);
+	}, [user, user.appAccessToken]);
 
 	React.useEffect(() => {
 		fetchSCP();
 	}, [fetchSCP]);
 
 	if (!scp) {
-		return <div>Loading widget...</div>;
+		return <div>No playing tracks!</div>;
 	}
+
+	if (!scp["item"]) return <div>Loading...</div>;
 
 	return (
 		<div className="bg-white rounded-lg p-2 flex items-center space-x-4">
 			<div className="rounded-full">
-				<img
-					src={scp["item"]?.album.images[2].url}
-					className="rounded-full border-2 animate-spin"
-					alt="Album cover"
-				/>
+				{
+					<img
+						src={scp["item"].album.images[2].url}
+						className="rounded-full border-2 animate-spin"
+						alt="Album cover"
+					/>
+				}
 			</div>
 			<div>
 				<div className="font-bold">{scp["item"]?.name}</div>

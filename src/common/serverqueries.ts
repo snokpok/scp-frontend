@@ -29,22 +29,12 @@ export async function GetSCPFromServer(accessToken: string) {
 	});
 }
 
-export async function GetMeFromServer(accessToken: string, email: string) {
+export async function GetMeFromServer(accessToken: string) {
 	return axios({
 		method: "GET",
 		headers: {
 			Authorization: `Bearer ${accessToken}`,
 		},
 		url: `${serverURL}/me`,
-	});
-}
-
-export async function RefreshAccessTokenFromServer(secretKey: string) {
-	return axios({
-		method: "POST",
-		headers: {
-			Authorization: `Basic ${secretKey}`,
-		},
-		url: `${serverURL}/refresh`,
 	});
 }

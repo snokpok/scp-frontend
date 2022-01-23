@@ -8,18 +8,22 @@ import UserWidget from "../components/User/UserWidget";
 const cookies = new Cookies();
 
 function DashboardPage() {
-	const { user } = React.useContext(UserContext);
+	const { user, setUser } = React.useContext(UserContext);
 	const navigate = useNavigate();
+	const scpURLApi = "http://localhost:4000/scp";
 
 	React.useEffect(() => {
-		const accessToken = cookies.get("accessToken");
-		alert(accessToken);
-		if (!accessToken) {
-			navigate("login", {
+		const appAccessToken = cookies.get("accessToken");
+		if (!appAccessToken) {
+			navigate("/", {
 				replace: true,
 			});
 		} else {
 			// try to fetch all info with this
+			setUser((prev) => ({
+				...prev,
+				appAccessToken,
+			}));
 		}
 	}, [navigate]);
 
@@ -28,13 +32,13 @@ function DashboardPage() {
 			<div>
 				<UserWidget />
 			</div>
-			<div className="flex flex-col items-center justify-center rounded-lg w-1/4 p-5 bg-white">
+			<div className="flex flex-col items-center justify-center rounded-lg w-96 p-5 bg-white">
 				<h1>
 					<div className="font-bold text-lg">Welcome!</div>
 				</h1>
 				<div>You can access your currently playing song by this URL:</div>
 				<input
-					value={`localhost:4000/scp`}
+					value={scpURLApi}
 					readOnly
 					className="p-2 bg-gray-300 rounded-sm"
 				/>

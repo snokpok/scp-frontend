@@ -13,13 +13,15 @@ export interface UserStateContextInterface {
 	setUser: React.Dispatch<React.SetStateAction<UserState>>;
 }
 
+export const defaultUserState: UserState = {
+	user: null,
+	accessToken: null,
+	refreshToken: null,
+	appAccessToken: null,
+	appRefreshToken: null,
+};
+
 export const UserContext = React.createContext<UserStateContextInterface>({
-	user: {
-		user: null,
-		accessToken: null,
-		refreshToken: null,
-		appAccessToken: null,
-		appRefreshToken: null,
-	},
+	user: defaultUserState,
 	setUser: () => {},
 });

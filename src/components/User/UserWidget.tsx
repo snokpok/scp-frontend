@@ -1,6 +1,6 @@
 import React from "react";
 import { UserContext } from "../../common/contexts/user.context";
-import { GetMeFromServer } from "../../common/serverqueries";
+import { getMeFromServer } from "../../common/serverqueries";
 
 function UserWidget() {
 	const { user, setUser } = React.useContext(UserContext);
@@ -9,7 +9,7 @@ function UserWidget() {
 		// fetch the user info with access token from data
 		// if no access token then fetch the user from our db then update
 		if (!user.accessToken && user.appAccessToken) {
-			GetMeFromServer(user.appAccessToken).then(({ data }) => {
+			getMeFromServer(user.appAccessToken).then(({ data }) => {
 				setUser((prev) => ({
 					...prev,
 					accessToken: data.access_token,
@@ -22,23 +22,27 @@ function UserWidget() {
 				}));
 			});
 		}
-	}, [user.appAccessToken]);
+	}, [user, setUser]);
 
 	if (!user || !user.user) {
 		return <div>Loading...</div>;
 	}
 
 	return (
-		<div className="flex rounded-md bg-white p-2 max-h-20 space-x-2">
-			<div className="flex flex-col">
+		<div className="flex rounded-md bg-white p-2 min-h-20 space-x-2">
+			<div className="flex flex-col text-center">
 				<p>
-					<div className="font-bold">{user.user["display_name"]}</div>
+					<div className="font-bold">
+						<h4>{user.user["display_name"]}</h4>
+					</div>
 				</p>
 				<p>
-					<div>{user.user["email"]}</div>
+					<div className="text-gray-600 italic">{user.user["email"]}</div>
 				</p>
 				<p>
-					<div>{user.user["spotify_id"]}</div>
+					<div className="text-gray-400 italic text-xs">
+						{user.user["spotify_id"]}
+					</div>
 				</p>
 			</div>
 		</div>

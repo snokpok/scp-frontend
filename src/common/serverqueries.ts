@@ -19,7 +19,7 @@ export async function addUser(user: AddUserArgs) {
 	});
 }
 
-export async function GetSCPFromServer(accessToken: string) {
+export async function getSCPFromServer(accessToken: string) {
 	return axios({
 		method: "GET",
 		headers: {
@@ -29,7 +29,7 @@ export async function GetSCPFromServer(accessToken: string) {
 	});
 }
 
-export async function GetMeFromServer(accessToken: string) {
+export async function getMeFromServer(accessToken: string) {
 	return axios({
 		method: "GET",
 		headers: {

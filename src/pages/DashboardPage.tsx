@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie/es6";
 import { UserContext } from "../common/contexts/user.context";
+import LogoutButton from "../components/Auth/LogoutButton";
 import SCPWidget from "../components/User/SCPWidget";
 import UserWidget from "../components/User/UserWidget";
 
@@ -13,7 +14,7 @@ function DashboardPage() {
 	const scpURLApi = "http://localhost:4000/scp";
 
 	React.useEffect(() => {
-		const appAccessToken = cookies.get("accessToken");
+		const appAccessToken = cookies.get("accessToken") ?? user.appAccessToken;
 		if (!appAccessToken) {
 			navigate("/", {
 				replace: true,
@@ -25,11 +26,12 @@ function DashboardPage() {
 				appAccessToken,
 			}));
 		}
-	}, [navigate]);
+	}, [navigate, user.appAccessToken, setUser]);
 
 	return (
 		<div className="flex flex-col bg-green-600 w-screen min-h-screen items-center justify-center space-y-2">
-			<div>
+			<div className="flex flex-col items-center space-y-2">
+				<LogoutButton />
 				<UserWidget />
 			</div>
 			<div className="flex flex-col items-center justify-center rounded-lg w-96 p-5 bg-white">
@@ -68,7 +70,19 @@ function DashboardPage() {
 					id="access-token-app"
 				/>
 			</div>
-			<div>
+			<div className="bg-black p-2">
+				<h2 className="text-white">Request with cURL:</h2>
+			</div>
+			<code className="p-2 bg-gray-700 text-white max-w-2xl overflow-x-scroll">
+				curl --location --request GET '{scpURLApi}' {"\n"} --header
+				'Authorization: Bearer {user.appAccessToken}'
+			</code>
+			<div className="p-2 bg-black space-y-2 flex flex-col items-center rounded-md">
+				<div>
+					<h1 className="font-bold text-white">
+						Sample custom widget from fetched data:
+					</h1>
+				</div>
 				<SCPWidget />
 			</div>
 		</div>

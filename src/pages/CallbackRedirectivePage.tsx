@@ -16,6 +16,9 @@ function CallbackRedirectivePage() {
 	const handleQueryParseAuth = React.useCallback(() => {
 		if (!query.get("code")) {
 			alert("please accept the permissions");
+			navigate("/", {
+				replace: true,
+			});
 		} else {
 			requestToken(query.get("code") as string).then((res) => {
 				const accessToken = res.data["access_token"];
@@ -48,7 +51,7 @@ function CallbackRedirectivePage() {
 				});
 			});
 		}
-	}, [query, setUser]);
+	}, [query, navigate, setUser]);
 
 	React.useEffect(() => {
 		if (user.appAccessToken && startRedirect)

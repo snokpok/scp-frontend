@@ -34,14 +34,21 @@ function CallbackRedirectivePage() {
 							access_token: accessToken,
 							refresh_token: refreshToken,
 							spotify_id: spotifyId,
-						}).then(({ data }) => {
-							const appAccessToken = data["data"]["token"];
-							setUser((prev) => ({
-								...prev,
-								appAccessToken,
-							}));
-							document.cookie = `accessToken=${appAccessToken}; path=/`;
-						});
+						})
+							.then(({ data }) => {
+								const appAccessToken = data["data"]["token"];
+								setUser((prev) => ({
+									...prev,
+									appAccessToken,
+								}));
+								document.cookie = `accessToken=${appAccessToken}; path=/`;
+							})
+							.catch((reason) => {
+								alert(reason);
+								navigate("/", {
+									replace: true,
+								}); // redirect to login page if any error
+							});
 						setStartRedirect(true);
 					} else {
 						alert(

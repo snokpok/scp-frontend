@@ -1,7 +1,9 @@
 import axios from "axios";
 
 export const serverURL =
-	process.env.NODE_ENV === "development" ? `http://localhost:4000` : "";
+	process.env.NODE_ENV === "development"
+		? `http://localhost:4000`
+		: "https://serene-bastion-56610.herokuapp.com";
 
 export interface AddUserArgs {
 	username: string;

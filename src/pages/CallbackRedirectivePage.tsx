@@ -45,7 +45,9 @@ function CallbackRedirectivePage() {
 							})
 							.catch((reason) => {
 								alert(reason);
-								navigate("/", { replace: true });
+								navigate("/", {
+									replace: true,
+								}); // redirect to login page if any error
 							});
 						setStartRedirect(true);
 					} else {

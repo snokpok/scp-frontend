@@ -11,7 +11,7 @@ const cookies = new Cookies();
 function DashboardPage() {
 	const { user, setUser } = React.useContext(UserContext);
 	const navigate = useNavigate();
-	const scpURLApi = "http://localhost:4000/scp";
+	const scpURLApi = `${window.location.protocol}//${window.location.host}/scp`;
 
 	React.useEffect(() => {
 		const appAccessToken = cookies.get("accessToken") ?? user.appAccessToken;

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const serverURL =
+export const SERVER_URL =
 	process.env.NODE_ENV === "development"
 		? `http://localhost:4000`
 		: "https://serene-bastion-56610.herokuapp.com";
@@ -16,7 +16,7 @@ export interface AddUserArgs {
 export async function addUser(user: AddUserArgs) {
 	return axios({
 		method: "POST",
-		url: `${serverURL}/user`,
+		url: `${SERVER_URL}/user`,
 		data: user,
 	});
 }
@@ -27,7 +27,7 @@ export async function getSCPFromServer(accessToken: string) {
 		headers: {
 			Authorization: `Bearer ${accessToken}`,
 		},
-		url: `${serverURL}/scp`,
+		url: `${SERVER_URL}/scp`,
 	});
 }
 
@@ -37,6 +37,6 @@ export async function getMeFromServer(accessToken: string) {
 		headers: {
 			Authorization: `Bearer ${accessToken}`,
 		},
-		url: `${serverURL}/me`,
+		url: `${SERVER_URL}/me`,
 	});
 }

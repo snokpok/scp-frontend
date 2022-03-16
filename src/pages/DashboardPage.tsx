@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie/es6";
 import { UserContext } from "../common/contexts/user.context";
+import { SERVER_URL } from "../common/serverqueries";
 import LogoutButton from "../components/Auth/LogoutButton";
 import SCPWidget from "../components/User/SCPWidget";
 import UserWidget from "../components/User/UserWidget";
@@ -11,7 +12,7 @@ const cookies = new Cookies();
 function DashboardPage() {
 	const { user, setUser } = React.useContext(UserContext);
 	const navigate = useNavigate();
-	const scpURLApi = `${window.location.protocol}//${window.location.host}/scp`;
+	const scpURLApi = `${SERVER_URL}/scp`;
 
 	React.useEffect(() => {
 		const appAccessToken = cookies.get("accessToken") ?? user.appAccessToken;
